@@ -91,9 +91,10 @@ export class Snake{
         }
         //console.log(this.body[0]);
 
-        this.checkSelfCollision();
+        
         this.checkApple();
         if (this.body.length > this.length) this.body.pop();
+        this.checkSelfCollision();
     }
 
     checkApple(){
