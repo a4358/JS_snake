@@ -1,6 +1,7 @@
 export default class View{
-    constructor(canvas,cellsize = 20){
+    constructor(canvas,score,cellsize = 20){
         this.canvas = canvas;
+        this.score = score;
         this.ctx = canvas.getContext('2d');
         this.cellsize = cellsize;
         this.drawnsegments = 0;
@@ -19,7 +20,9 @@ export default class View{
         this.drawsegment(snake.body[0]);
         this.drawnsegments = 1;
     }
-
+    updatescore(newscore){
+        score.innerText = newscore;
+    }
     update(snake){
         console.log(`drawing head ${snake.body[0]}`);
         this.drawsegment(snake.body[0]);

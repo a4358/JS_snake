@@ -5,8 +5,11 @@ export default class Controller {
         this.snake = null;
         this.moving = false;
         this.currentdirection = null;
-        this.gametickrate = 500;
+        this.gametickrate = 400;
+        this.acceleration = 20;
+        this.mintickrate = 150;
         this.movingid = null;
+        this.score = 0;
 
     }
 
@@ -22,16 +25,19 @@ export default class Controller {
             this.game_tick();
         },this.gametickrate);
         this.moving = true;
+        this.oldlength = this.snake.length
     }
 
     game_tick(){
         console.log('tick starting');
         this.snake.move(this.currentdirection);
-        console.log("done moving");
-        console.log(this.snake);
-
+        if (this.oldlength < this.snake.length){
+            this.oldlength = this.snake.length;
+            this.scoreupdate();
+            
+        }
         if (this.snake.dead === true) {
-            this.end_game();
+            this.defeat();
             return;
         }
         if (this.snake.length === this.snake.board.x*this.snake.board.y){
@@ -40,10 +46,22 @@ export default class Controller {
         }
         if (this.snake.board.apples.length === 0) this.spawnapple();
         this.view.update(this.snake);
-        console.log("tick over");
 
     }
+    
+    scoreupdate(){
+        this.score += 500 - this.gametickrate;
+        if (this.gametickrate > this.mintickrate) {
+            this.gametickrate -= this.acceleration;
+            console.log(`new tick rate = ${this.gametickrate}`);
+            clearInterval(this.movingid);
+            this.movingid = setInterval(() => {
+                this.game_tick();
+            },this.gametickrate);
 
+        }
+        this.view.updatescore(this.score);
+    }
     setdirection(direction){
         if ((direction +this.currentdirection)%2 === 1){ //change dir only if its not forward or back relative to current
             this.currentdirection = direction;
@@ -69,14 +87,20 @@ export default class Controller {
         let appleid = Math.floor(Math.random()*this.snake.board.x*this.snake.board.y);
         while (this.snake.body.includes(appleid)){
             console.log('failed apple placement, retrying');
-            appleid = Math.floor(Math.random()*this.snake.board.x*this.snake.board.y);
+            if (this.snake.length < this.snake.board.x*this.snake.board.y /2) appleid = Math.floor(Math.random()*this.snake.board.x*this.snake.board.y);
+            else {
+                if (appleid = this.snake.board.x*this.snake.board.y-1) appleid = 0;
+                else appleid+=1;
+            }
         }
         this.snake.board.addapple(appleid);
     }
-
+    defeat(){
+        alert("oops! you are dead");
+        this.end_game();
+    }
     end_game(){
         console.log("game ended");
-
         clearInterval(this.movingid);
         this.view.clear_view();
     }

@@ -27,7 +27,7 @@ export class Board {
         return [flat, ry];
     }
 
-    checkwallcollision(_x,_y){
+    checkWallCollision(_x,_y){
         if (_x < 0 || _x>=this.x || _y < 0 || _y >= this.y) return true;
         else return false;
     }
@@ -73,30 +73,30 @@ export class Snake{
         //console.log(this.body[0]);
         switch (direction) {
             case NORTH:
-                if (!this.board.checkwallcollision(x, y - 1)) this.body.unshift(this.board.flatcoords(x,y-1));
+                if (!this.board.checkWallCollision(x, y - 1)) this.body.unshift(this.board.flatcoords(x,y-1));
                 else this.die();
                 break;
             case SOUTH:
-                if (!this.board.checkwallcollision(x, y + 1)) this.body.unshift(this.board.flatcoords(x,y+1));
+                if (!this.board.checkWallCollision(x, y + 1)) this.body.unshift(this.board.flatcoords(x,y+1));
                 else this.die();
                 break;
             case WEST:
-                if (!this.board.checkwallcollision(x - 1, y)) this.body.unshift(this.board.flatcoords(x-1,y));
+                if (!this.board.checkWallCollision(x - 1, y)) this.body.unshift(this.board.flatcoords(x-1,y));
                 else this.die();
                 break;
             case EAST:
-                if (!this.board.checkwallcollision(x + 1, y)) this.body.unshift(this.board.flatcoords(x+1,y));
+                if (!this.board.checkWallCollision(x + 1, y)) this.body.unshift(this.board.flatcoords(x+1,y));
                 else this.die();
                 break;
         }
         //console.log(this.body[0]);
 
         this.checkselfcollision();
-        this.checkapple();
+        this.checkApple();
         if (this.body.length > this.length) this.body.pop();
     }
 
-    checkapple(){
+    checkApple(){
         const appleid = this.body[0];
         if (this.board.apples.includes(appleid)){
             this.length += 1;
