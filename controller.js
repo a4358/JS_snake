@@ -5,7 +5,7 @@ export default class Controller {
         this.snake = null;
         this.moving = false;
         this.currentdirection = null;
-        this.gametickrate = 400;
+        this.gametickrate = 300;
         this.acceleration = 20;
         this.mintickrate = 150;
         this.movingid = null;
@@ -18,7 +18,7 @@ export default class Controller {
         const board = new Board(40, 30);
         this.snake = new Snake(board, 5, 20, 15);
         //console.log(this.snake);
-
+        this.gametickrate = 300;
         this.currentdirection = NORTH;
         this.view.initialise(this.snake);
         this.movingid = setInterval(() => {
