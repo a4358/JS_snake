@@ -10,6 +10,7 @@ export default class Controller {
         this.minTickRate = 150;
         this.movingIntervalId = null;
         this.score = 0;
+        this.previousDirection = NORTH;
 
     }
 
@@ -33,6 +34,7 @@ export default class Controller {
     gameTick(){
         console.log('tick starting');
         this.snake.move(this.currentDirection);
+        this.previousDirection = this.currentDirection;
         if (this.oldlength < this.snake.length){
             this.oldlength = this.snake.length;
             this.scoreUpdate();
@@ -65,7 +67,7 @@ export default class Controller {
         this.view.updateScore(this.score);
     }
     setdirection(direction){
-        if ((direction +this.currentDirection)%2 === 1){ //change dir only if its not forward or back relative to current
+        if ((direction + this.previousDirection)%2 === 1){ //change dir only if its not forward or back relative to current
             this.currentDirection = direction;
         }
     }
