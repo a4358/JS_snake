@@ -14,11 +14,11 @@ export class Board {
         this.apples = [];
     }
 
-    flatcoords(_x,_y){
+    flatCoords(_x,_y){
         return (this.x*_y+_x);
     }
 
-    xycoords(flat){
+    xyCoords(flat){
         let ry = 0
         while (flat >= this.x) {
             flat -= this.x;
@@ -33,7 +33,7 @@ export class Board {
     }
     
     addApple(appleid){
-        //let appleid = this.flatcoords((_x,_y));
+        //let appleid = this.flatCoords((_x,_y));
         if (!this.apples.includes(appleid)) this.apples.push(appleid);
     }
 
@@ -52,7 +52,7 @@ export class Snake{
         this.length = startinglength;
         this.body = [];
         for (let i = 0; i < startinglength; i++){
-            this.body[i]=this.board.flatcoords(startingx,startingy);
+            this.body[i]=this.board.flatCoords(startingx,startingy);
         }
     }
     die(){
@@ -69,23 +69,23 @@ export class Snake{
     move(direction){
         console.log(`moving ${direction}`);
         let x, y;
-        [x,y] = this.board.xycoords(this.body[0]);
+        [x,y] = this.board.xyCoords(this.body[0]);
         //console.log(this.body[0]);
         switch (direction) {
             case NORTH:
-                if (!this.board.checkWallCollision(x, y - 1)) this.body.unshift(this.board.flatcoords(x,y-1));
+                if (!this.board.checkWallCollision(x, y - 1)) this.body.unshift(this.board.flatCoords(x,y-1));
                 else this.die();
                 break;
             case SOUTH:
-                if (!this.board.checkWallCollision(x, y + 1)) this.body.unshift(this.board.flatcoords(x,y+1));
+                if (!this.board.checkWallCollision(x, y + 1)) this.body.unshift(this.board.flatCoords(x,y+1));
                 else this.die();
                 break;
             case WEST:
-                if (!this.board.checkWallCollision(x - 1, y)) this.body.unshift(this.board.flatcoords(x-1,y));
+                if (!this.board.checkWallCollision(x - 1, y)) this.body.unshift(this.board.flatCoords(x-1,y));
                 else this.die();
                 break;
             case EAST:
-                if (!this.board.checkWallCollision(x + 1, y)) this.body.unshift(this.board.flatcoords(x+1,y));
+                if (!this.board.checkWallCollision(x + 1, y)) this.body.unshift(this.board.flatCoords(x+1,y));
                 else this.die();
                 break;
         }

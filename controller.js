@@ -17,6 +17,8 @@ export default class Controller {
         clearInterval(this.movingIntervalId);
         const board = new Board(40, 30);
         this.snake = new Snake(board, 5, 20, 15);
+        this.score = 0;
+        this.view.updateScore(this.score);
         //console.log(this.snake);
         this.gameTickRate = 300;
         this.currentDirection = NORTH;
@@ -60,7 +62,7 @@ export default class Controller {
             },this.gameTickRate);
 
         }
-        this.view.updatescore(this.score);
+        this.view.updateScore(this.score);
     }
     setdirection(direction){
         if ((direction +this.currentDirection)%2 === 1){ //change dir only if its not forward or back relative to current

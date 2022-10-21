@@ -1,10 +1,10 @@
 export default class View{
-    constructor(canvas,score,cellsize = 20){
+    constructor(canvas,score,cellSize = 20){
         this.canvas = canvas;
         this.score = score;
         this.ctx = canvas.getContext('2d');
-        this.cellsize = cellsize;
-        this.drawnsegments = 0;
+        this.cellSize = cellSize;
+        this.drawnSegments = 0;
         this.board = null;
     }
 
@@ -14,51 +14,51 @@ export default class View{
 
     initialise(snake){
         console.log("initialised");
-        this.canvas.width = (snake.board.x) * this.cellsize;
-        this.canvas.height = (snake.board.y) * this.cellsize;
+        this.canvas.width = (snake.board.x) * this.cellSize;
+        this.canvas.height = (snake.board.y) * this.cellSize;
         this.board = snake.board;
-        this.drawsegment(snake.body[0]);
-        this.drawnsegments = 1;
+        this.drawSegment(snake.body[0]);
+        this.drawnSegments = 1;
     }
-    updatescore(newscore){
+    updateScore(newscore){
         score.innerText = newscore;
     }
     update(snake){
         console.log(`drawing head ${snake.body[0]}`);
-        this.drawsegment(snake.body[0]);
-        console.log(snake.length, this.drawnsegments);
-        if (snake.length === this.drawnsegments+1){
+        this.drawSegment(snake.body[0]);
+        console.log(snake.length, this.drawnSegments);
+        if (snake.length === this.drawnSegments+1){
             console.log(`removing tail ${snake.body[snake.length-1]}`);
-            this.drawnsegments -=1;
+            this.drawnSegments -=1;
 
-            this.removesegment(snake.body[snake.length-1]);
+            this.removeSegment(snake.body[snake.length-1]);
         }
         for (let appleid of snake.board.apples){
             console.log("drawing apple");
 
-            this.drawapple(appleid);
+            this.drawApple(appleid);
         }
 
-        this.drawnsegments += 1;
+        this.drawnSegments += 1;
     }
 
-    drawsegment(segmentid){
+    drawSegment(segmentid){
         let x, y;
-        [x,y] = this.board.xycoords(segmentid);
+        [x,y] = this.board.xyCoords(segmentid);
         this.ctx.fillStyle = "blue";
-        this.ctx.fillRect(x*this.cellsize,y*this.cellsize,this.cellsize,this.cellsize);
+        this.ctx.fillRect(x*this.cellSize,y*this.cellSize,this.cellSize,this.cellSize);
     }
 
-    drawapple(segmentid){
+    drawApple(segmentid){
         let x, y;
-        [x,y] = this.board.xycoords(segmentid);
+        [x,y] = this.board.xyCoords(segmentid);
         this.ctx.fillStyle = "green";
-        this.ctx.fillRect(x*this.cellsize,y*this.cellsize,this.cellsize,this.cellsize);
+        this.ctx.fillRect(x*this.cellSize,y*this.cellSize,this.cellSize,this.cellSize);
     }
 
-    removesegment(segmentid){
+    removeSegment(segmentid){
         let x, y;
-        [x,y] = this.board.xycoords(segmentid);
-        this.ctx.clearRect(x*this.cellsize,y*this.cellsize,this.cellsize,this.cellsize);
+        [x,y] = this.board.xyCoords(segmentid);
+        this.ctx.clearRect(x*this.cellSize,y*this.cellSize,this.cellSize,this.cellSize);
     }
 }
