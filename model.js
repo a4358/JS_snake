@@ -100,7 +100,7 @@ export class Snake{
         const appleid = this.body[0];
         if (this.board.apples.includes(appleid)){
             this.length += 1;
-            this.board.removeapple(appleid);
+            this.board.removeApple(appleid);
         }
     }
 
