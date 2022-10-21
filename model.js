@@ -32,12 +32,12 @@ export class Board {
         else return false;
     }
     
-    addapple(appleid){
+    addApple(appleid){
         //let appleid = this.flatcoords((_x,_y));
         if (!this.apples.includes(appleid)) this.apples.push(appleid);
     }
 
-    removeapple(appleid){
+    removeApple(appleid){
         if (this.apples.includes(appleid)){
             const removalindex = this.apples.indexOf(appleid);
             this.apples.splice(removalindex,1);
@@ -58,7 +58,7 @@ export class Snake{
     die(){
         this.dead = true;
     }
-    checkselfcollision(){
+    checkSelfCollision(){
         //console.log("checking self-collision");
 
         if (this.body.slice(1).includes(this.body[0])) {
@@ -91,7 +91,7 @@ export class Snake{
         }
         //console.log(this.body[0]);
 
-        this.checkselfcollision();
+        this.checkSelfCollision();
         this.checkApple();
         if (this.body.length > this.length) this.body.pop();
     }

@@ -1,6 +1,6 @@
 import Controller from "./controller.js";
 import View from "./view.js";
-import { Board, Snake, NORTH, WEST, EAST, SOUTH } from "./model.js";
+import {NORTH, WEST, EAST, SOUTH } from "./model.js";
 const newgamebtn = document.getElementById('newgamebtn');
 const pausebtn = document.getElementById('pausebtn');
 const snakecanvas = document.getElementById('canvas');
@@ -9,7 +9,7 @@ const view = new View(snakecanvas,score);
 const controller = new Controller(view);
 snakecanvas.width = (40) * 20;
 snakecanvas.height = (30) * 20;
-newgamebtn.addEventListener('click', newgame);
+newgamebtn.addEventListener('click', newGame);
 
 pausebtn.addEventListener('click', pause);
 
@@ -75,7 +75,7 @@ function pause(){
     }
 }
 
-function newgame(){
+function newGame(){
     pausebtn.innerText = "Pause";
-    controller.newgame();
+    controller.newGame();
 }

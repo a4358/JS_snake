@@ -8,7 +8,7 @@ export default class View{
         this.board = null;
     }
 
-    clear_view(){
+    clearView(){
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
     }
 

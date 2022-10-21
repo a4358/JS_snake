@@ -1,89 +1,89 @@
-import { Board, Snake, NORTH, WEST, EAST, SOUTH } from "./model.js";
+import { Board, Snake, NORTH} from "./model.js";
 export default class Controller {
     constructor(view) {
         this.view = view;
         this.snake = null;
         this.moving = false;
-        this.currentdirection = null;
-        this.gametickrate = 300;
+        this.currentDirection = null;
+        this.gameTickRate = 300;
         this.acceleration = 20;
-        this.mintickrate = 150;
-        this.movingid = null;
+        this.minTickRate = 150;
+        this.movingIntervalId = null;
         this.score = 0;
 
     }
 
-    newgame() {
-        clearInterval(this.movingid);
+    newGame() {
+        clearInterval(this.movingIntervalId);
         const board = new Board(40, 30);
         this.snake = new Snake(board, 5, 20, 15);
         //console.log(this.snake);
-        this.gametickrate = 300;
-        this.currentdirection = NORTH;
+        this.gameTickRate = 300;
+        this.currentDirection = NORTH;
         this.view.initialise(this.snake);
-        this.movingid = setInterval(() => {
-            this.game_tick();
-        },this.gametickrate);
+        this.movingIntervalId = setInterval(() => {
+            this.gameTick();
+        },this.gameTickRate);
         this.moving = true;
         this.oldlength = this.snake.length
     }
 
-    game_tick(){
+    gameTick(){
         console.log('tick starting');
-        this.snake.move(this.currentdirection);
+        this.snake.move(this.currentDirection);
         if (this.oldlength < this.snake.length){
             this.oldlength = this.snake.length;
-            this.scoreupdate();
+            this.scoreUpdate();
             
         }
         if (this.snake.dead === true) {
             this.defeat();
             return;
         }
-        if (this.snake.length === this.snake.board.x*this.snake.board.y){
+        if (this.snake.length === this.snake.board.x*this.snake.board.y-1){
             this.victory();
             return;
         }
-        if (this.snake.board.apples.length === 0) this.spawnapple();
+        if (this.snake.board.apples.length === 0) this.spawnApple();
         this.view.update(this.snake);
 
     }
     
-    scoreupdate(){
-        this.score += 500 - this.gametickrate;
-        if (this.gametickrate > this.mintickrate) {
-            this.gametickrate -= this.acceleration;
-            console.log(`new tick rate = ${this.gametickrate}`);
-            clearInterval(this.movingid);
-            this.movingid = setInterval(() => {
-                this.game_tick();
-            },this.gametickrate);
+    scoreUpdate(){
+        this.score += 500 - this.gameTickRate;
+        if (this.gameTickRate > this.minTickRate) {
+            this.gameTickRate -= this.acceleration;
+            console.log(`new tick rate = ${this.gameTickRate}`);
+            clearInterval(this.movingIntervalId);
+            this.movingIntervalId = setInterval(() => {
+                this.gameTick();
+            },this.gameTickRate);
 
         }
         this.view.updatescore(this.score);
     }
     setdirection(direction){
-        if ((direction +this.currentdirection)%2 === 1){ //change dir only if its not forward or back relative to current
-            this.currentdirection = direction;
+        if ((direction +this.currentDirection)%2 === 1){ //change dir only if its not forward or back relative to current
+            this.currentDirection = direction;
         }
     }
 
     pause(){
-        clearInterval(this.movingid);
+        clearInterval(this.movingIntervalId);
         this.moving = false;
 
     }
 
     unpause(){
         if (this.snake.dead === false){
-            this.movingid = setInterval(() => {
-                this.game_tick();
-            },this.gametickrate);
+            this.movingIntervalId = setInterval(() => {
+                this.gameTick();
+            },this.gameTickRate);
             this.moving = true;
         }
     }
 
-    spawnapple(){
+    spawnApple(){
         let appleid = Math.floor(Math.random()*this.snake.board.x*this.snake.board.y);
         while (this.snake.body.includes(appleid)){
             console.log('failed apple placement, retrying');
@@ -93,20 +93,20 @@ export default class Controller {
                 else appleid+=1;
             }
         }
-        this.snake.board.addapple(appleid);
+        this.snake.board.addApple(appleid);
     }
     defeat(){
         alert("oops! you are dead");
-        this.end_game();
+        this.endGame();
     }
-    end_game(){
+    endGame(){
         console.log("game ended");
-        clearInterval(this.movingid);
-        this.view.clear_view();
+        clearInterval(this.movingIntervalId);
+        this.view.clearView();
     }
 
     victory(){
         alert("congratulations! you ate all the apples there are");
-        this.end_game();
+        this.endGame();
     }
 }
